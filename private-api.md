@@ -205,7 +205,7 @@ POST /private/signup/{company_code}   (HMAC SHA256)
 
 ### 3) 회원 등록 취소
 ```
-POST /private/cancel/{company_code}
+DELETE /private/cancel/{company_code}
 ```
 등록된 회원을 취소합니다. `{company_code}` 예: `softways`
 
