@@ -22,9 +22,9 @@
 - API 키는 `X-VIRTUALCLASS-API` **헤더**로 전달합니다.
 - **API 키와 시크릿 키는 대소문자를 구분**합니다.
 - 기본적으로 API 키는 **모든 보안 라우트**에 접근 가능합니다.
-- 서명값을 담은 `X-VIRTUALCLASS-SECRET` **헤더**가 필요합니다.
+- 서명값을 담은 `X-VIRTUALCLASS-SIGN` **헤더**가 필요합니다.
 - 서명은 **HMAC-SHA256** 방식입니다. 메시지(예: `query string` 원문 또는 `request body` 원문)에 **시크릿 키**를 HMAC 키로 하여 서명을 계산합니다.
-- `X-VIRTUALCLASS-SECRET`에 넣는 **서명(16진수 문자열)은 대소문자 비구분**입니다.
+- `X-VIRTUALCLASS-SIGN`에 넣는 **서명(16진수 문자열)은 대소문자 비구분**입니다.
   (*단, 키 자체는 대소문자 구분*)
 
 ---
@@ -51,7 +51,7 @@ echo -n "company_code=softways" | openssl dgst -sha256 -hmac "YOUR_SECRET_KEY"
 curl -X GET \
   "https://www.tsvirtualclass.com/private/is-company?company_code=softways" \
   -H "X-VIRTUALCLASS-API: YOUR_API_KEY" \
-  -H "X-VIRTUALCLASS-SECRET: 위에서 계산한_서명값"
+  -H "X-VIRTUALCLASS-SIGN: 위에서 계산한_서명값"
 ```
 
 ### 2) Request Body 서명
@@ -66,8 +66,36 @@ echo -n "name=홍길동&email=gdhong@softways.co.kr&phone=01012345678" | openssl
 curl -X POST \
   "https://www.tsvirtualclass.com/private/signup/softway" \
   -H "X-VIRTUALCLASS-API: YOUR_API_KEY" \
-  -H "X-VIRTUALCLASS-SECRET: 위에서 계산한_서명값" \
+  -H "X-VIRTUALCLASS-SIGN: 위에서 계산한_서명값" \
   -d "name=홍길동&email=gdhong@softways.co.kr&phone=01012345678"
+```
+
+
+** 응답 예시**
+```json
+# SIGN에 필요한 Header를 포함하지 않았을 때
+{
+  "result": false,
+  "message": "missing_headers"
+}
+
+# API_KEY 가 유효하지 않을 때
+{
+  "result": false,
+  "message": "invalid_api_key"
+}
+
+# SECRET_KEY 가 지정되지 않았을 때(소프트웨이즈로 연락 바랍니다.)
+{
+  "result": false,
+  "message": "secret_not_found"
+}
+
+# 요청 SIGN 값과 서버에서 SIGN을 생성한 값이 일치하지 않을 때
+{
+  "result": false,
+  "message": "signature_mismatch"
+}
 ```
 
 ---
@@ -90,12 +118,12 @@ GET /private/is-company   (HMAC SHA256)
 
 **응답 예시**
 ```json
-// 사용 가능한 기관일 때
+# 사용 가능한 기관일 때
 {
   "result": true
 }
 
-// 사용 불가한 기관일 때
+# 사용 불가한 기관일 때
 {
   "result": false
 }
@@ -121,7 +149,7 @@ POST /private/signup/{company_code}   (HMAC SHA256)
 
 **응답 예시**
 ```json
-// 회원 등록이 되었을 때
+# 회원 등록이 되었을 때
 {
   "result": true,
   "data": {
@@ -129,7 +157,7 @@ POST /private/signup/{company_code}   (HMAC SHA256)
   }
 }
 
-// 회원 등록이 되지 않았을 때
+# 회원 등록이 되지 않았을 때
 {
   "result": false,
   "message": "이미 등록된 휴대폰번호 입니다."
@@ -154,12 +182,12 @@ POST /private/cancel/{company_code}
 
 **응답 예시**
 ```json
-// 회원 등록이 취소 되었을 때
+# 회원 등록이 취소 되었을 때
 {
   "result": true
 }
 
-// 회원 등록 취소가 되지 않았을 때
+# 회원 등록 취소가 되지 않았을 때
 {
   "result": false,
   "message": "해당 회원이 존재 하지 않습니다."
@@ -184,7 +212,7 @@ POST /private/login/{company_code}
 
 **응답 예시**
 ```json
-// 로그인 처리 되었을 때 서비스에 접근 할 수 있는 URL을 리턴 합니다.
+# 로그인 처리 되었을 때 서비스에 접근 할 수 있는 URL을 리턴 합니다.
 {
   "result": true,
   "data": {
@@ -192,7 +220,7 @@ POST /private/login/{company_code}
   }
 }
 
-// 로그인 처리 되지 않았을 때
+# 로그인 처리 되지 않았을 때
 {
   "result": false,
   "message": "해당 회원이 존재 하지 않습니다."
