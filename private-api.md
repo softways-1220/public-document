@@ -197,7 +197,7 @@ POST /private/signup/{company_code}   (HMAC SHA256)
 
 # 회원 등록이 되지 않았을 때
 {
-  "message": "이미 등록된 휴대폰번호 입니다."
+  "message": "이미 가입 된 회원입니다."
 }
 ```
 
