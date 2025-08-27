@@ -7,6 +7,7 @@
 - 어떤 엔드포인트든 **오류**를 반환할 수 있습니다. 오류 페이로드 예시는 아래와 같습니다:
   ```json
   {
+    "result": false,
     "message": "비정상 접근입니다. 올바른 경로로 다시 접근해 주세요."
   }
   ```
@@ -50,6 +51,7 @@ echo -n "company_code=softways" | openssl dgst -sha256 -hmac "YOUR_SECRET_KEY"
 ```bash
 curl -X GET \
   "https://www.tsvirtualclass.com/private/is-company?company_code=softways" \
+  -H "Accept: application/json" \
   -H "X-VIRTUALCLASS-API: YOUR_API_KEY" \
   -H "X-VIRTUALCLASS-SIGN: 위에서 계산한_서명값"
 ```
@@ -96,6 +98,7 @@ public final class VcSign {
 ```bash
 curl -X POST \
   "https://www.tsvirtualclass.com/private/signup/softway" \
+  -H "Accept: application/json" \
   -H "X-VIRTUALCLASS-API: YOUR_API_KEY" \
   -H "X-VIRTUALCLASS-SIGN: 위에서 계산한_서명값" \
   -d "name=홍길동&email=gdhong@softways.co.kr&phone=01012345678"
