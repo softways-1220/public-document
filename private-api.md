@@ -61,7 +61,35 @@ echo -n "name=홍길동&email=gdhong@softways.co.kr&phone=01012345678" | openssl
 # SHA2-256(stdin)= a7d508cd636fc...16f79e6c40b57  ← 서명 예시
 ```
 
-**요청 예시**
+```php
+$query_string = 'name=홍길동&email=gdhong@softways.co.kr&phone=01012345678';
+$secret = 'YOUR_SECRET_KEY';
+$signature = hash_hmac('sha256', $query_string, $secret); // a7d508cd636fc...16f79e6c40b57  ← 서명 예시
+```
+
+```java
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+
+public final class VcSign {
+    private VcSign() {}
+    public static String hmacSha256Hex(String secret, String data) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+            byte[] out = mac.doFinal(data.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder(out.length * 2);
+            for (byte b : out) sb.append(String.format("%02x", b));
+            return sb.toString(); // PHP hash_hmac(..., ..., false)와 동일(소문자 hex)
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+}
+```
+
+**요청 예시 BASH**
 ```bash
 curl -X POST \
   "https://www.tsvirtualclass.com/private/signup/softway" \
