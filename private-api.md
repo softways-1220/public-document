@@ -67,7 +67,7 @@ curl -X POST \
   "https://www.tsvirtualclass.com/private/signup/softway" \
   -H "X-VIRTUALCLASS-API: YOUR_API_KEY" \
   -H "X-VIRTUALCLASS-SECRET: 위에서 계산한_서명값" \
-  -d "type=buy&price=1.00000&amount=1.00000000"
+  -d "name=홍길동&email=gdhong@softways.co.kr&phone=01012345678"
 ```
 
 ---
