@@ -57,17 +57,20 @@ curl -X GET \
 ### 2) Request Body 서명
 - 원문: `name=홍길동&email=gdhong@softways.co.kr&phone=01012345678`
 ```bash
+# linux bash
 echo -n "name=홍길동&email=gdhong@softways.co.kr&phone=01012345678" | openssl dgst -sha256 -hmac "YOUR_SECRET_KEY"
 # SHA2-256(stdin)= a7d508cd636fc...16f79e6c40b57  ← 서명 예시
 ```
 
 ```php
+// php
 $query_string = 'name=홍길동&email=gdhong@softways.co.kr&phone=01012345678';
 $secret = 'YOUR_SECRET_KEY';
 $signature = hash_hmac('sha256', $query_string, $secret); // a7d508cd636fc...16f79e6c40b57  ← 서명 예시
 ```
 
 ```java
+// java
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
