@@ -7,7 +7,6 @@
 - 어떤 엔드포인트든 **오류**를 반환할 수 있습니다. 오류 페이로드 예시는 아래와 같습니다:
   ```json
   {
-    "result": false,
     "message": "비정상 접근입니다. 올바른 경로로 다시 접근해 주세요."
   }
   ```
@@ -109,25 +108,21 @@ curl -X POST \
 ```json
 # SIGN에 필요한 Header를 포함하지 않았을 때
 {
-  "result": false,
   "message": "missing_headers"
 }
 
 # API_KEY 가 유효하지 않을 때
 {
-  "result": false,
   "message": "invalid_api_key"
 }
 
 # SECRET_KEY 가 지정되지 않았을 때(소프트웨이즈로 연락 바랍니다.)
 {
-  "result": false,
   "message": "secret_not_found"
 }
 
 # 요청 SIGN 값과 서버에서 SIGN을 생성한 값이 일치하지 않을 때
 {
-  "result": false,
   "message": "signature_mismatch"
 }
 ```
@@ -154,12 +149,12 @@ GET /private/is-company   (HMAC SHA256)
 ```json
 # 사용 가능한 기관일 때
 {
-  "result": true
+  "company_code": "softways"
 }
 
 # 사용 불가한 기관일 때
 {
-  "result": false
+  "message": "존재하지 않는 기관 입니다."
 }
 ```
 
@@ -185,15 +180,11 @@ POST /private/signup/{company_code}   (HMAC SHA256)
 ```json
 # 회원 등록이 되었을 때
 {
-  "result": true,
-  "data": {
-    "user_token": "a7d508cd636fca3aa4eff1b3d0e13d1b764f924d8f852551eec16f79e6c40b57"
-  }
+  "user_token": "a7d508cd636fca3aa4eff1b3d0e13d1b764f924d8f852551eec16f79e6c40b57"
 }
 
 # 회원 등록이 되지 않았을 때
 {
-  "result": false,
   "message": "이미 등록된 휴대폰번호 입니다."
 }
 ```
@@ -223,7 +214,6 @@ POST /private/cancel/{company_code}
 
 # 회원 등록 취소가 되지 않았을 때
 {
-  "result": false,
   "message": "해당 회원이 존재 하지 않습니다."
 }
 ```
@@ -248,15 +238,11 @@ POST /private/login/{company_code}
 ```json
 # 로그인 처리 되었을 때 서비스에 접근 할 수 있는 URL을 리턴 합니다.
 {
-  "result": true,
-  "data": {
-    "url": "https://www.tsvirtualclass.com/space/softways/dashboard/c0701fd68cb797a050cbbb25494fa4732d0404b6cd5a3a9168b830bbff2539c3"
-  }
+  "url": "https://www.tsvirtualclass.com/space/softways/dashboard/c0701fd68cb797a050cbbb25494fa4732d0404b6cd5a3a9168b830bbff2539c3"
 }
 
 # 로그인 처리 되지 않았을 때
 {
-  "result": false,
   "message": "해당 회원이 존재 하지 않습니다."
 }
 ```
