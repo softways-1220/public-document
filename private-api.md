@@ -1,4 +1,4 @@
-# 버추얼클래스 Private REST API
+# 버추얼클래스 Private SSO REST API
 
 ## 일반 정보 (General API Information)
 - **기본 엔드포인트(Base URL)**: `https://www.tsvirtualclass.com`
