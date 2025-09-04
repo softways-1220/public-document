@@ -135,7 +135,7 @@ curl -X POST \
 
 # 요청 SIGN 값과 서버에서 SIGN을 생성한 값이 일치하지 않을 때
 {
-  "message": "signature_mismatch"
+  "message": "signature_mismatch" // 개발서버일 땐 signature 힌트가 같이 표기 됩니다.
 }
 ```
 
