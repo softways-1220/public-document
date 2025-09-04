@@ -242,7 +242,7 @@ POST /private/login/{company_code}
 
 이름 | 타입 | 필수 | 설명
 ---|---|---|---
-`user_token` | STRING | 필수 | 예: a7d508cd636fc....e6c40b57 회원 등록시 부여받은 user_token
+`user_token` | STRING | 필수 | 예: a7d508cd636fc...e6c40b57 회원 등록시 부여받은 user_token
 
 > `user_token`는 반드시 전송해야 합니다.
 
@@ -250,7 +250,7 @@ POST /private/login/{company_code}
 ```json
 # 로그인 처리 되었을 때 서비스에 접근 할 수 있는 URL을 리턴 합니다.
 {
-  "url": "https://www.tsvirtualclass.com/space/softways/dashboard/c0701fd68cb797a050cbbb25494fa4732d0404b6cd5a3a9168b830bbff2539c3"
+  "url": "https://www.tsvirtualclass.com/private-login/softways/c0701fd68...2539c3"
 }
 
 # 로그인 처리 되지 않았을 때
